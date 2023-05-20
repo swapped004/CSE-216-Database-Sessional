@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+    <!--navbar tags-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="../../static/accounts/Base/css/navbar.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="../../static/accounts/Base/js/navbar.js"></script>
+
+    <!--added tags-->
+    {% block tags %}{% endblock %}
+    <!--title-->
+        <title>{%  block title %}NETFLIX{% endblock %}</title>
+    </head>
+
+    <body>
+    <!--navbar-->
+    <div class="wrapper">
+         <header>
+            <nav>
+               <div class="menu-icon">
+                  <i class="fa fa-bars fa-2x"></i>
+               </div>
+               <div class="logo">
+                  NETFLIX
+               </div>
+               <div class="menu">
+                  <ul>
+                     <li><a href="/home">HOME</a></li>
+
+                     <li><a href="/user/login/">LOGIN</a></li>
+                     <li><a href="/user/register/">REGISTER</a></li>
+                      <li><a href="/user/contact/">CONTACT</a></li>
+                  </ul>
+               </div>
+            </nav>
+         </header>
+      </div>
+    <!--navbar ended here-->
+    <!--added template--->
+        <div id="content", name="content">
+            {% block content %}
+
+
+            {% endblock %}
+        </div>
+    </body>
+
+</html>

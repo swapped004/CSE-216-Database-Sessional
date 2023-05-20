@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+    <!--navbar tags-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+
+
+    <!--added tags-->
+    {% block tags %}{% endblock %}
+    <!--title-->
+        <title>{%  block title %}NETFLIX{% endblock %}</title>
+
+    <style>
+	.bs-example{
+    	margin: 20px;
+        text-decoration-color: BLACK;
+
+    }
+
+        .bg-col
+        {
+            background: GREY;
+
+        }
+    </style>
+
+    </head>
+
+    <body class = "bg-col">
+    <div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a href="/home" class="navbar-brand">NETFLIX</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a href="/home" class="nav-link">Home</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Profile</a>
+                    <div class="dropdown-menu">
+                        <a href="/profile/my_profile/" class="dropdown-item">Profile</a>
+                        <a href="/home/settings/" class="dropdown-item">Settings</a>
+                        <a href="/home/subscribed_show/" class="dropdown-item">Subscriptions</a>
+                        <a href="/home/downloads/" class="dropdown-item">Downloads</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/home/logout"class="dropdown-item">Log Out</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Shows</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="/movies" class="dropdown-item">Movies</a>
+                        <a href="/shows/anime" class="dropdown-item">Animes</a>
+                        <a href="/shows/documentary" class="dropdown-item">Documentaries</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/shows/series" class="dropdown-item">TV Series</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Genre</a>
+                    <div class="dropdown-menu">
+                        <a href="/genre/crime" class="dropdown-item">Crime</a>
+                        <a href="/genre/thriller" class="dropdown-item">Thriller</a>
+                        <a href="/genre/action" class="dropdown-item">Action</a>
+                        <a href="/genre/adventure" class="dropdown-item">Adventure</a>
+                        <a href="/genre/comedy" class="dropdown-item">Comedy</a>
+                        <a href="/genre/romance" class="dropdown-item">Romance</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/genre/miscellaneous"class="dropdown-item">Miscellaneous</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    <!--navbar ended here-->
+    <!--added template--->
+
+        <div class="content" id="content", name="content">
+            {% block content %}
+
+
+            {% endblock %}
+        </div>
+
+    </body>
+
+</html>

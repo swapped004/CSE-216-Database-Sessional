@@ -1,0 +1,54 @@
+{% extends 'home/base.html' %}
+{% block tags %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"/>
+    <link rel="stylesheet" href="../../static/home/profile/css/style.css">
+
+    <!-- Bootstrap Core CSS -->
+<link href="../../static/home/home_page/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- CCS for the effects-->
+<link href="../../static/home/home_page/css/effects.min.css" rel="stylesheet">
+
+
+{% endblock %}
+
+
+{% block content %}
+<div class="wrap_prof">
+    <div class="profile-card">
+    <div class="card-header">
+      <div class="pic">
+         {% if user_info.gender == "male" %}
+                <img src={{ user_info.profile_pic }} alt="NOT_FOUND" onerror=this.src="../../media/avatar_male.jpg">
+            {% else %}
+                <img src={{ user_info.profile_pic }}  alt="NOT_FOUND" onerror=this.src="../../media/avatar_female.jpg">
+            {% endif %}
+      </div>
+      <div class="name">{{ user_info.userFname }} {{ user_info.userLname }}</div>
+      <div class="desc">Joined {{ user_info.Jdate }}</div>
+
+    </div>
+    <div class="card-footer">
+      <div class="numbers">
+        <div class="item">
+          <span>{{ user_info.Favg }}</span>
+          Fav. Genre
+        </div>
+        <div class="border"></div>
+        <div class="item">
+          <span>{{ user_info.no_of_subs }}</span>
+          Subscriptions
+        </div>
+        <div class="border"></div>
+        <div class="item">
+          <span>{{ user_info.no_of_downloads }}</span>
+          Downloads
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script src="../../static/home/home_page/js/production.min.js"></script>
+{% endblock %}

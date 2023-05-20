@@ -1,0 +1,394 @@
+{% extends 'home/base.html' %}
+{% block tags %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Bootstrap image hover effects">
+    <meta name="author" content="Mike Young">
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../../static/home/home_page/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CCS for the effects-->
+    <link href="../../static/home/home_page/css/effects.min.css" rel="stylesheet">
+
+    <!-- Font Icons -->
+    <link rel="stylesheet" href="../../static/home/home_page/css/font-awesome.min.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="../../static/home/home_page/fonts/stylesheet.css">
+
+    <!--search bar links-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+    <link href="../../static/home/home_page/search/css/main.css" rel="stylesheet" />
+
+
+
+{% endblock %}
+
+
+
+{%  block content %}
+
+    <!--search bar-->
+     <div class="s008">
+      <form method = "POST">
+          {% csrf_token %}
+        <div class="inner-form">
+          <div class="basic-search">
+            <div class="input-field">
+              <input id="search" name="search_field" type="text" placeholder="Type shows, genres, actors or directors" />
+              <div class="icon-wrap">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+                  <path d="M18.869 19.162l-5.943-6.484c1.339-1.401 2.075-3.233 2.075-5.178 0-2.003-0.78-3.887-2.197-5.303s-3.3-2.197-5.303-2.197-3.887 0.78-5.303 2.197-2.197 3.3-2.197 5.303 0.78 3.887 2.197 5.303 3.3 2.197 5.303 2.197c1.726 0 3.362-0.579 4.688-1.645l5.943 6.483c0.099 0.108 0.233 0.162 0.369 0.162 0.121 0 0.242-0.043 0.338-0.131 0.204-0.187 0.217-0.503 0.031-0.706zM1 7.5c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5-6.5-2.916-6.5-6.5z"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="advance-search" id = "adv_search">
+            <span class="desc">Advanced Search</span>
+            <div class="row">
+
+              <div class="input-field">
+                <div class="input-select">
+                  <select data-trigger="" name="genre">
+                    <option placeholder="" value="">Genres</option>
+                    <option>Crime</option>
+                    <option>Thriller</option>
+                    <option>Action</option>
+                      <option>Drama</option>
+                      <option>Comedy</option>
+                      <option>Romance</option>
+                  </select>
+                </div>
+              </div>
+
+                <div class="input-field">
+                <div class="input-select">
+                  <select data-trigger="" name="language">
+                    <option placeholder="" value="">Language</option>
+                    <option>English</option>
+                    <option>French</option>
+                    <option>Japanese</option>
+                      <option>Russian</option>
+                      <option>German</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+            <div class="row second">
+                <div class="input-field">
+                <div class="input-select">
+                  <select data-trigger="" name="from_year">
+                    <option placeholder="" value="">From (year) :</option>
+                      <option>1980</option>
+                      <option>1985</option>
+                    <option>1990</option>
+                    <option>1995</option>
+                    <option>2000</option>
+                      <option>2005</option>
+                      <option>2010</option>
+                      <option>2015</option>
+                      <option>2020</option>
+                  </select>
+                </div>
+              </div>
+              <div class="input-field">
+                <div class="input-select">
+                  <select data-trigger="" name="to_year">
+                    <option placeholder="" value="">To (year) :</option>
+                    <option>1980</option>
+                      <option>1985</option>
+                    <option>1990</option>
+                    <option>1995</option>
+                    <option>2000</option>
+                      <option>2005</option>
+                      <option>2010</option>
+                      <option>2015</option>
+                      <option>2020</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+              <div class="row first">
+                <div class="input-field">
+                <div class="input-select">
+                  <select data-trigger="" name="sort_by">
+                    <option placeholder="" value="">SORT BY:</option>
+                      <option>IMDB RATING(D)</option>
+                      <option>IMDB RATING(A)</option>
+                      <option>USER RATING(D)</option>
+                      <option>USER RATING(A)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row third">
+              <div class="input-field">
+                <div class="result-count">
+                  <span> </span>{{ no_of_results }} results</div>
+
+
+                <div class="group-btn">
+                  <button class="btn-delete" id="delete">Reset</button>
+                  <button class="btn-search" name="search_button" value="clicked">Search</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+<!-- Page Content -->
+
+    <div class="container">
+
+    <div class="row">
+    <div class="gap">
+
+        {% comment %}<div class="col-lg-12 text-center">
+            <h1 class="page-header">Image hover effects</h1>
+            <p class="titlep">Click the link on the desired image hover effect to view the html and css code you can copy to use the effect</p>
+        </div>{% endcomment %}
+
+        {% for show in shows %}
+        <div class="dynamic" id = "{{ show.show_id }}">
+            <div class="hovereffect">
+                <img class="img-responsive" src="{{ show.show_image }}" alt="">
+                <div class="overlay">
+                   <h2>{{ show.show_title }}</h2>
+                    <h4>{{ show.show_genre }}</h4>
+                    <br><br><br><br>
+                     <h4>IMDB Rating: {{show.show_imdb}}</h4>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+        {% if  error_msg != "" %}
+            <label ><h1>{{ error_msg }}</h1></label>
+        {% endif %}
+    </div>
+    </div>
+
+    <style>
+        .gap
+        {
+            padding-top: 1px;
+
+        }
+        .dynamic{
+            width : 250px;
+            float: left;
+            margin: 16px;
+            padding-bottom: 5px;
+            -webkit-transition:all .4s linear;
+            transition:all .4s linear;
+        }
+
+        .dynamic:hover{
+            -ms-transform:scale(1.2);
+            -webkit-transform:scale(1.2);
+            transform:scale(1.2);
+        }
+
+
+.hovereffect {
+width:100%;
+height:100%;
+float:left;
+overflow:hidden;
+position:relative;
+text-align:center;
+cursor:default;
+}
+
+.hovereffect .overlay {
+width:100%;
+height:100%;
+position:absolute;
+overflow:hidden;
+top:0;
+left:0;
+opacity:0;
+background-color:rgba(0,0,0,0.5);
+-webkit-transition:all .4s ease-in-out;
+transition:all .4s ease-in-out
+}
+
+.hovereffect img {
+display:block;
+position:relative;
+    height: 350px;
+-webkit-transition:all .4s linear;
+transition:all .4s linear;
+}
+
+.hovereffect h2 {
+text-transform:uppercase;
+color:#fff;
+text-align:center;
+position:relative;
+font-size:17px;
+background:rgba(0,0,0,0.6);
+-webkit-transform:translate(-100px);
+-ms-transform:translate(-100px);
+transform:translate(-100px);
+-webkit-transition:all .2s ease-in-out;
+transition:all .2s ease-in-out;
+padding:10px;
+}
+
+.hovereffect h4 {
+
+color:#fff;
+text-align:center;
+position:relative;
+font-size:14px;
+-webkit-transform:translate(-100px);
+-ms-transform:translate(-100px);
+transform:translate(-100px);
+-webkit-transition:all .2s ease-in-out;
+transition:all .2s ease-in-out;
+padding:10px;
+}
+
+.hovereffect a.info {
+text-decoration:none;
+display:inline-block;
+text-transform:uppercase;
+color:#fff;
+border:1px solid #fff;
+background-color:transparent;
+opacity:0;
+filter:alpha(opacity=0);
+-webkit-transition:all .2s ease-in-out;
+transition:all .2s ease-in-out;
+margin:50px 0 0;
+padding:7px 14px;
+}
+
+.hovereffect a.info:hover {
+box-shadow:0 0 5px #fff;
+}
+
+.hovereffect:hover img {
+-ms-transform:scale(1.2);
+-webkit-transform:scale(1.2);
+transform:scale(1.2);
+    filter: blur(2px);
+}
+
+.hovereffect:hover .overlay {
+opacity:1;
+filter:alpha(opacity=100);
+}
+
+.hovereffect:hover h2,.hovereffect:hover a.info {
+opacity:1;
+filter:alpha(opacity=100);
+-ms-transform:translate(0);
+-webkit-transform:translate(0);
+transform:translatey(0);
+    color:white;
+}
+
+.hovereffect:hover h4 {
+opacity:80%;
+filter:alpha(opacity=50);
+-ms-transform:translate(0);
+-webkit-transform:translate(0);
+transform:translatey(0);
+    color:white;
+}
+
+.hovereffect:hover a.info {
+-webkit-transition-delay:.2s;
+transition-delay:.2s;
+}
+
+    </style>
+
+
+    <!-- Footer -->
+
+
+</div>
+<!-- /.container -->
+
+
+<!-- modals; the pop up boxes that contain the code for the effects -->
+
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../static/home/home_page/js/production.min.js"></script>
+
+
+    <!--search bar scripts-->
+
+    <script src="../../static/home/home_page/search/js/extention/choices.js"></script>
+    <script>
+      const customSelects = document.querySelectorAll("select");
+      const deleteBtn = document.getElementById('delete')
+      const choices = new Choices('select',
+      {
+        searchEnabled: false,
+        removeItemButton: true,
+        itemSelectText: '',
+      });
+      for (let i = 0; i < customSelects.length; i++)
+      {
+        customSelects[i].addEventListener('addItem', function(event)
+        {
+          if (event.detail.value)
+          {
+            let parent = this.parentNode.parentNode
+            parent.classList.add('valid')
+            parent.classList.remove('invalid')
+          }
+          else
+          {
+            let parent = this.parentNode.parentNode
+            parent.classList.add('invalid')
+            parent.classList.remove('valid')
+          }
+        }, false);
+      }
+      deleteBtn.addEventListener("click", function(e)
+      {
+        e.preventDefault()
+        const deleteAll = document.querySelectorAll('.choices__button')
+        for (let i = 0; i < deleteAll.length; i++)
+        {
+          deleteAll[i].click();
+        }
+      });
+
+      $('#adv_search_btn').click(function() {
+        $('#adv_search').toggle();
+        });
+
+      function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+
+        }
+
+
+            $('.dynamic').click(function(){
+                var id = $(this).attr('id');
+                window.location = "/movies/"+id;
+            });
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+﻿{% extends 'accounts/base.html' %}
+
+{% block tags %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>NETFLIX - Contact Page</title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" />
+<link href="../../static/accounts/contact/css/all.min.css" rel="stylesheet" />
+<link href="../../static/accounts/contact/css/templatemo-style.css" rel="stylesheet" />
+{% endblock %}
+<!--
+
+Simple House
+
+https://templatemo.com/tm-539-simple-house
+
+-->
+{%  block content %}
+
+	<div class="container">
+		<div class="placeholder">
+			<div class="parallax-window" data-parallax="scroll">
+				<div class="tm-header">
+					<div class="row tm-header-inner">
+						<div class="col-md-6 col-12">
+							<img src="../../static/accounts/contact/img/simple-house-logo.png" alt="Logo" class="tm-site-logo" />
+							<div class="tm-site-text-box">
+								<h1 class="tm-site-title">NETFLIX</h1>
+								<h6 class="tm-site-description">A Treat to Your Mind</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<main>
+            <br>
+            <br>
+            <br>
+			<div class="tm-container-inner-2 tm-contact-section">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="tm-address-box">
+							<h4 class="tm-info-title tm-text-success">Our Address</h4>
+							<address>
+								77/5,Kewatkhali,Mymensingh,Bangladesh
+							</address>
+							<a href="tel:080-090-0110" class="tm-contact-link">
+								<i class="fas fa-phone tm-contact-icon"></i>080-090-0110
+							</a>
+							<a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJTLHBCFXlvWQdQVxszphKdDKgnGvnMjZRLBrKMNrjPshFXjVpprbjFNMxDsMKCRlWvDbSB" class="tm-contact-link">
+								<i class="fas fa-envelope tm-contact-icon"></i>1705025@ugrad.cse.buet.ac.bd
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- How to change your own map point
+				1. Go to Google Maps
+				2. Click on your location point
+				3. Click "Share" and choose "Embed map" tab
+				4. Copy only URL and paste it within the src="" field below
+			-->
+			<div class="tm-container-inner-2 tm-map-section">
+				<div class="row">
+					<div class="col-12">
+						<div class="tm-map">
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3623.765102161989!2d90.42199231464227!3d24.734943356369236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x37564f97ac89042f%3A0xfd66ba8d60cc581b!2z4KaV4KeH4KaT4Kef4Ka-4Kaf4KaW4Ka-4Kay4KeAIOCmk-Cnn-CmvuCmquCmpuCmviDgpq7gprjgppzgpr_gpqY!5e0!3m2!1sbn!2sbd!4v1604247759949!5m2!1sbn!2sbd" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script src="../../static/accounts/contact/js/jquery.min.js"></script>
+	<script src="../../static/accounts/contact/js/parallax.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			var acc = document.getElementsByClassName("accordion");
+			var i;
+
+			for (i = 0; i < acc.length; i++) {
+				acc[i].addEventListener("click", function () {
+					this.classList.toggle("active");
+					var panel = this.nextElementSibling;
+					if (panel.style.maxHeight) {
+						panel.style.maxHeight = null;
+					} else {
+						panel.style.maxHeight = panel.scrollHeight + "px";
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

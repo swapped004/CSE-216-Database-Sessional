@@ -1,0 +1,105 @@
+{% extends 'home/base.html' %}
+
+{% block tags %}
+
+  <link rel="stylesheet" type="text/css" href="../../static/home/subscribe/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/home/subscribe/font-awesome/css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="../../static/home/subscribe/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../static/home/subscribe/bootstrap/js/bootstrap.min.js"></script>
+
+{% endblock %}
+
+
+{%  block content %}
+<div class="container">
+
+<div>
+<div class="page-header">
+    <h2 class="text-center">Payment Information</h2>
+</div>
+</div>
+
+<!-- Credit Card Payment Form - START -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <h3 class="text-center"></h3>
+                        <img class="img-responsive cc-img" src="http://prepbootstrap.com/Content/images/shared/misc/creditcardicons.png">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form role="form" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>CARD NUMBER</label>
+                                    <div class="input-group">
+                                        <input type="tel" class="form-control" placeholder="Valid Card Number" name="card_number" />
+                                        <span class="input-group-addon"><span class="fa fa-credit-card"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7 col-md-7">
+                                <div class="form-group">
+                                    <label><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                    <input type="tel" class="form-control" placeholder="MM / YY" name="exp_date"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-md-5 pull-right">
+                                <div class="form-group">
+                                    <label>CV CODE</label>
+                                    <input type="password" class="form-control" placeholder="CVC" name="password" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label>CARD OWNER</label>
+                                    <input type="text" class="form-control" placeholder="Card Owner Names" name="username" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-warning btn-lg btn-block" name="pay" value="clicked">Process payment ({{ show.amount }}$)</button>
+                        </div>
+                    </div>
+                    </form>
+
+                     <div class="row">
+                         <div class="col-xs-12">
+                            <label>{{ error_msg }}</label>
+                         <div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../static/home/home_page/js/production.min.js"></script>
+
+<style>
+    .cc-img {
+        margin: 0 auto;
+    }
+</style>
+<!-- Credit Card Payment Form - END -->
+
+
+{% endblock %}

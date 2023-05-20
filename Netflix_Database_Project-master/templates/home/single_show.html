@@ -1,0 +1,823 @@
+{% extends 'home/base.html' %}
+{% block tags %}
+
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="">
+
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'>
+
+    <link rel="stylesheet" href="../../static/home/single_show/css/plugins.css">
+	<link rel="stylesheet" href="../../static/home/single_show/css/style.css">
+    <script src="../../static/home/single_show/js/main.js" defer></script>
+{% endblock %}
+
+
+
+{% block content %}
+
+    {% for show in shows %}
+<div class="hero mv-single-hero">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- <h1> movie listing - list</h1>
+				<ul class="breadcumb">
+					<li class="active"><a href="#">Home</a></li>
+					<li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+				</ul> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="page-single movie-single movie_single">
+	<div class="container">
+		<div class="row ipad-width2">
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="movie-img sticky-sb">
+					<img src={{ show.show_image }} , width = 400px, height=1000px>
+					<div class="movie-btn">
+
+                        {% if show.is_sub == 0 and show.is_series == 0%}
+						<div class="btn-transform transform-vertical">
+							<div><a href="/subscribe/show_{{ show.show_id }}" class="item item-1 yellowbtn"> <i class="ion-card"></i> SUBSCRIBE</a></div>
+							<div><a href="/subscribe/show_{{ show.show_id }}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+						</div>
+                        {% elif show.is_sub == 1 %}
+                        <div class="btn-transform transform-vertical red">
+							<div><a href="/stream/stream_shows/{{ show.file_name }}/" class="item item-1 redbtn"> <i class="ion-play"></i> Stream</a></div>
+                            <div><a href="/stream/stream_shows/{{ show.file_name }}/" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+						</div>
+
+                        <div class="btn-transform transform-vertical red">
+							<div><a href="/stream/download_shows/{{ show.file_name }}-{{ show.show_id }}/" class="item item-1 redbtn"> <i class="ion-play"></i> Download</a></div>
+							<div><a href="/stream/download_shows/{{ show.file_name }}-{{ show.show_id }}/" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+						</div>
+                            {%if show.is_series == 0 %}
+                                <div class="btn-transform transform-vertical">
+                                    <div><a href="/unsubscribe/show_{{ show.show_id }}" class="item item-1 yellowbtn"> <i class="ion-card"></i> UNSUBSCRIBE</a></div>
+                                    <div><a href="/unsubscribe/show_{{ show.show_id }}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        {% if show.is_series == 1 %}
+                             <div class="btn-transform transform-vertical">
+                                    <div><a href="/{{ show.series_id }}_{{ show.season_no }}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Go to Series</a></div>
+                                    <div><a href="/series/{{ show.series_id }}_{{ show.season_no }}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+                             </div>
+                    ````{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8 col-sm-12 col-xs-12">
+				<div class="movie-single-ct main-content">
+					<h1 class="bd-hd">{{ show.show_title }} <span>{{ show.show_year }}</span></h1>
+					<div class="social-btn">
+						<a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+						<div class="hover-bnt">
+							<a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
+							<div class="hvr-item">
+								<a href="#" class="hvr-grow"><i class="ion-social-facebook"></i></a>
+								<a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>
+								<a href="#" class="hvr-grow"><i class="ion-social-googleplus"></i></a>
+								<a href="#" class="hvr-grow"><i class="ion-social-youtube"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="movie-rate">
+						<div class="rate">
+							<i class="ion-android-star"></i>
+							<p><span>{{ show.show_user_rating }}</span> /5<br>
+								<span class="rv">{{ review_count }}Reviews</span>
+							</p>
+						</div>
+						<div class="col text-center">
+							<form class="rate-form" method="POST" id = "rating_form">
+								{% csrf_token %}
+								<button name="star1" type="submit" class="fa fa-star fa-3x rating-btn" id="first" value="clicked"></button>
+								<button name="star2" type="submit" class="fa fa-star fa-3x rating-btn" id="second" value="clicked"></button>
+								<button name="star3" type="submit" class="fa fa-star fa-3x rating-btn" id="third" value="clicked"></button>
+								<button name="star4" type="submit" class="fa fa-star fa-3x rating-btn" id="fourth" value="clicked"></button>
+								<button name="star5" type="submit" class="fa fa-star fa-3x rating-btn" id="fifth" value="clicked"></button>
+                                <!--input type="text" placeholder="Review" name="review"-->
+							</form>
+						</div>
+					</div>
+					<div class="movie-tabs">
+						<div class="tabs">
+							<ul class="tab-links tabs-mv">
+								<li class="active"><a href="#overview">Overview</a></li>
+								<li><a href="#reviews"> Reviews</a></li>
+								<li><a href="#cast_and_crews">  Cast & Crew </a></li>
+								<li><a href="/genre/{{ show.show_genre }}"> Related Shows</a></li>
+							</ul>
+						    <div class="tab-content">
+						        <div id="overview" class="tab active">
+						            <div class="row">
+						            	<div class="col-md-8 col-sm-12 col-xs-12">
+                                            <p>{{ show.show_des }}</p>
+											<div id="cast_and_crews"class="title-hd-sm">
+												<h4>cast</h4>
+												<a href="#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
+											</div>
+											<!-- movie cast -->
+											<div class="mvcast-item">
+                                                {% for actor in show.actor_list %}
+												<div class="cast-it">
+
+													<div class="cast-left">
+														<img src={{ actor.actor_photo }} alt="">
+														<a href={{ actor.actor_link}}>{{ actor.actor_name }}</a>
+													</div>
+												</div>
+                                                    {% endfor %}
+											</div>
+											<div class="title-hd-sm">
+												<h4>User reviews</h4>
+												<a id = "reviews" href="#" class="time">{{ review_count }} Reviews <i class="ion-ios-arrow-right"></i></a>
+											</div>
+											<!-- movie user review -->
+											{% for review in review_list%}
+										<div class="mv-user-review-item">
+											<div class="user-infor">
+												<img src="images/uploads/userava1.jpg" alt="">
+												<div>
+													<h3>{{ review.feedback }}</h3>
+                                                    {% if review.rating_out_of_five == 5 %}
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+													</div>
+
+                                                    {% elif review.rating_out_of_five == 4 %}
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+
+                                                        {% elif review.rating_out_of_five == 3 %}
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+
+                                                        {% elif review.rating_out_of_five == 2 %}
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+
+                                                        {% elif review.rating_out_of_five == 1 %}
+													<div class="no-star">
+														<i class="ion-android-star"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+
+                                                        {% elif review.rating_out_of_five == 0 %}
+													<div class="no-star">
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+														<i class="ion-android-star last"></i>
+													</div>
+                                                    {% endif %}
+													<p class="time">
+													{{ review.review_time }}
+                                                        <a class="reviewer" id={{ review.reviewer_id }}>{{ review.review_poster }}</a>
+													</p>
+												</div>
+											</div>
+                                        <p></p>
+										</div>
+                                       {% endfor %}
+						            	</div>
+						            	<div class="col-md-4 col-xs-12 col-sm-12">
+						            		<div class="sb-it">
+						            			<h6>Director: </h6>
+						            			<p><a href={{ show.director_link }}>{{ show.director_name }}</a></p>
+						            		</div>
+						            		<div class="sb-it">
+                                                <h6>Production Company: </h6>
+						            			<h6>{{ show.company_name}}</h6>
+                                                <img src={{ show.company_logo }} alt="">
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Language: </h6>
+                                                <p>{{ show.show_lang }}</p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Genre:</h6>
+						            			<p><a href="/genre/{{ show.show_genre }}">{{ show.show_genre }}</a>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Release Year:</h6>
+						            			<p>{{ show.show_year }}</p>
+						            		</div>
+
+                                            <div class="sb-it">
+						            			<h6>IMDB Rating:</h6>
+						            			<p>{{ show.show_imdb }}</p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>MMPA Rating:</h6>
+						            			<p>PG-{{ show.show_age_limit }}</p>
+						            		</div>
+						            		<div class="sb-it">
+						            			<h6>Plot Keywords:</h6>
+						            			<p class="tags">
+						            				<span class="time"><a href="#">superhero</a></span>
+													<span class="time"><a href="#">marvel universe</a></span>
+													<span class="time"><a href="#">comic</a></span>
+													<span class="time"><a href="#">blockbuster</a></span>
+													<span class="time"><a href="#">final battle</a></span>
+						            			</p>
+						            		</div>
+						            		<div class="ads">
+												<img src="../../static/home/single_show/css/images/uploads/ads1.png" alt="">
+											</div>
+						            	</div>
+						            </div>
+						        </div>
+						        <div id="reviews" class="tab review">
+						           <div class="row">
+						            	<div class="rv-hd">
+						            		<div class="div">
+							            		<h3>Related Movies To</h3>
+						       	 				<h2>Skyfall: Quantum of Spectre</h2>
+							            	</div>
+							            	<a href="#" class="redbtn">Write Review</a>
+						            	</div>
+						            	<div class="topbar-filter">
+											<p>Found <span>56 reviews</span> in total</p>
+											<label>Filter by:</label>
+											<select>
+												<option value="popularity">Popularity Descending</option>
+												<option value="popularity">Popularity Ascending</option>
+												<option value="rating">Rating Descending</option>
+												<option value="rating">Rating Ascending</option>
+												<option value="date">Release date Descending</option>
+												<option value="date">Release date Ascending</option>
+											</select>
+										</div>
+
+
+
+						        </div>
+						        <div id="cast" class="tab">
+						        	<div class="row">
+						            	<h3>Cast & Crew of</h3>
+					       	 			<h2>Avengers: Age of Ultron</h2>
+										<!-- //== -->
+					       	 			<div class="title-hd-sm">
+											<h4>Directors & Credit Writers</h4>
+										</div>
+										<div class="mvcast-item">
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JW</h4>
+													<a href="#">Joss Whedon</a>
+												</div>
+												<p>...  Director</p>
+											</div>
+										</div>
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>Directors & Credit Writers</h4>
+										</div>
+										<div class="mvcast-item">
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>SL</h4>
+													<a href="#">Stan Lee</a>
+												</div>
+												<p>...  (based on Marvel comics)</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JK</h4>
+													<a href="#">Jack Kirby</a>
+												</div>
+												<p>...  (based on Marvel comics)</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JS</h4>
+													<a href="#">Joe Simon</a>
+												</div>
+												<p>...  (character created by: Captain America)</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JS</h4>
+													<a href="#">Joe Simon</a>
+												</div>
+												<p>...  (character created by: Thanos)</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>RT</h4>
+													<a href="#">Roy Thomas</a>
+												</div>
+												<p>...  (character created by: Ultron, Vision)</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JB</h4>
+													<a href="#">John Buscema</a>
+												</div>
+												<p>...  (character created by: Ultron, Vision)</p>
+											</div>
+										</div>
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>Cast</h4>
+										</div>
+										<div class="mvcast-item">
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast1.jpg" alt="">
+													<a href="#">Robert Downey Jr.</a>
+												</div>
+												<p>...  Robert Downey Jr.</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast2.jpg" alt="">
+													<a href="#">Chris Hemsworth</a>
+												</div>
+												<p>...  Thor</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast3.jpg" alt="">
+													<a href="#">Mark Ruffalo</a>
+												</div>
+												<p>...  Bruce Banner/ Hulk</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast4.jpg" alt="">
+													<a href="#">Chris Evans</a>
+												</div>
+												<p>...  Steve Rogers/ Captain America</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast5.jpg" alt="">
+													<a href="#">Scarlett Johansson</a>
+												</div>
+												<p>...  Natasha Romanoff/ Black Widow</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast6.jpg" alt="">
+													<a href="#">Jeremy Renner</a>
+												</div>
+												<p>...  Clint Barton/ Hawkeye</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast7.jpg" alt="">
+													<a href="#">James Spader</a>
+												</div>
+												<p>...  Ultron</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<img src="images/uploads/cast9.jpg" alt="">
+													<a href="#">Don Cheadle</a>
+												</div>
+												<p>...  James Rhodes/ War Machine</p>
+											</div>
+										</div>
+										<!-- //== -->
+										<div class="title-hd-sm">
+											<h4>Produced by</h4>
+										</div>
+										<div class="mvcast-item">
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>VA</h4>
+													<a href="#">Victoria Alonso</a>
+												</div>
+												<p>...  executive producer</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>MB</h4>
+													<a href="#">Mitchel Bell</a>
+												</div>
+												<p>...  co-producer (as Mitch Bell)</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JC</h4>
+													<a href="#">Jamie Christopher</a>
+												</div>
+												<p>...  associate producer</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>LD</h4>
+													<a href="#">Louis D’Esposito</a>
+												</div>
+												<p>...  executive producer</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JF</h4>
+													<a href="#">Jon Favreau</a>
+												</div>
+												<p>...  executive producer</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>KF</h4>
+													<a href="#">Kevin Feige</a>
+												</div>
+												<p>...  producer</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>AF</h4>
+													<a href="#">Alan Fine</a>
+												</div>
+												<p>...  executive producer</p>
+											</div>
+											<div class="cast-it">
+												<div class="cast-left">
+													<h4>JF</h4>
+													<a href="#">Jeffrey Ford</a>
+												</div>
+												<p>...  associate producer</p>
+											</div>
+										</div>
+						            </div>
+					       	 	</div>
+					       	 	<div id="media" class="tab">
+						        	<div class="row">
+						        		<div class="rv-hd">
+						            		<div>
+						            			<h3>Videos & Photos of</h3>
+					       	 					<h2>Skyfall: Quantum of Spectre</h2>
+						            		</div>
+						            	</div>
+						            	<div class="title-hd-sm">
+											<h4>Videos <span>(8)</span></h4>
+										</div>
+										<div class="mvsingle-item media-item">
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item1.jpg" alt="">
+													<a class="fancybox-media hvr-grow"  href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Trailer:  Watch New Scenes</a></h6>
+													<p class="time"> 1: 31</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item2.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Featurette: “Avengers Re-Assembled</a></h6>
+													<p class="time"> 1: 03</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item3.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Interview: Robert Downey Jr</a></h6>
+													<p class="time"> 3:27</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item4.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Interview: Scarlett Johansson</a></h6>
+													<p class="time"> 3:27</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item1.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Featurette: Meet Quicksilver & The Scarlet Witch</a></h6>
+													<p class="time"> 1: 31</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item2.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Interview: Director Joss Whedon</a></h6>
+													<p class="time"> 1: 03</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item3.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Interview: Mark Ruffalo</a></h6>
+													<p class="time"> 3:27</p>
+												</div>
+											</div>
+											<div class="vd-item">
+												<div class="vd-it">
+													<img class="vd-img" src="images/uploads/vd-item4.jpg" alt="">
+													<a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="images/uploads/play-vd.png" alt=""></a>
+												</div>
+												<div class="vd-infor">
+													<h6> <a href="#">Official Trailer #2</a></h6>
+													<p class="time"> 3:27</p>
+												</div>
+											</div>
+										</div>
+										<div class="title-hd-sm">
+											<h4>Photos <span> (21)</span></h4>
+										</div>
+										<div class="mvsingle-item">
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image11.jpg" ><img src="images/uploads/image1.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery"  href="images/uploads/image21.jpg" ><img src="images/uploads/image2.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image31.jpg" ><img src="images/uploads/image3.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image41.jpg" ><img src="images/uploads/image4.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image51.jpg" ><img src="images/uploads/image5.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image61.jpg" ><img src="images/uploads/image6.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image71.jpg" ><img src="images/uploads/image7.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image81.jpg" ><img src="images/uploads/image8.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image91.jpg" ><img src="images/uploads/image9.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image101.jpg" ><img src="images/uploads/image10.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image111.jpg" ><img src="images/uploads/image1-1.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image121.jpg" ><img src="images/uploads/image12.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image131.jpg" ><img src="images/uploads/image13.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image141.jpg" ><img src="images/uploads/image14.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image151.jpg" ><img src="images/uploads/image15.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image161.jpg" ><img src="images/uploads/image16.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image171.jpg" ><img src="images/uploads/image17.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image181.jpg" ><img src="images/uploads/image18.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image191.jpg" ><img src="images/uploads/image19.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image201.jpg" ><img src="images/uploads/image20.jpg" alt=""></a>
+											<a class="img-lightbox"  data-fancybox-group="gallery" href="images/uploads/image211.jpg" ><img src="images/uploads/image2-1.jpg" alt=""></a>
+										</div>
+						        	</div>
+					       	 	</div>
+					       	 	<div id="moviesrelated" class="tab">
+					       	 		<div class="row">
+					       	 			<h3>Related Movies To</h3>
+					       	 			<h2>Skyfall: Quantum of Spectre</h2>
+					       	 			<div class="topbar-filter">
+											<p>Found <span>12 movies</span> in total</p>
+											<label>Sort by:</label>
+											<select>
+												<option value="popularity">Popularity Descending</option>
+												<option value="popularity">Popularity Ascending</option>
+												<option value="rating">Rating Descending</option>
+												<option value="rating">Rating Ascending</option>
+												<option value="date">Release date Descending</option>
+												<option value="date">Release date Ascending</option>
+											</select>
+										</div>
+										<div class="movie-item-style-2">
+											<img src="images/uploads/mv1.jpg" alt="">
+											<div class="mv-item-infor">
+												<h6><a href="#">oblivion <span>(2012)</span></a></h6>
+												<p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
+												<p class="describe">Earth's mightiest heroes must come together and learn to fight as a team if they are to stop the mischievous Loki and his alien army from enslaving humanity...</p>
+												<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+												<p>Director: <a href="#">Joss Whedon</a></p>
+												<p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
+											</div>
+										</div>
+										<div class="movie-item-style-2">
+											<img src="images/uploads/mv2.jpg" alt="">
+											<div class="mv-item-infor">
+												<h6><a href="#">into the wild <span>(2014)</span></a></h6>
+												<p class="rate"><i class="ion-android-star"></i><span>7.8</span> /10</p>
+												<p class="describe">As Steve Rogers struggles to embrace his role in the modern world, he teams up with a fellow Avenger and S.H.I.E.L.D agent, Black Widow, to battle a new threat...</p>
+												<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+												<p>Director: <a href="#">Anthony Russo,</a><a href="#">Joe Russo</a></p>
+												<p>Stars: <a href="#">Chris Evans,</a> <a href="#">Samuel L. Jackson,</a> <a href="#">  Scarlett Johansson</a></p>
+											</div>
+										</div>
+										<div class="movie-item-style-2">
+											<img src="images/uploads/mv3.jpg" alt="">
+											<div class="mv-item-infor">
+												<h6><a href="#">blade runner  <span>(2015)</span></a></h6>
+												<p class="rate"><i class="ion-android-star"></i><span>7.3</span> /10</p>
+												<p class="describe">Armed with a super-suit with the astonishing ability to shrink in scale but increase in strength, cat burglar Scott Lang must embrace his inner hero and help...</p>
+												<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+												<p>Director: <a href="#">Peyton Reed</a></p>
+												<p>Stars: <a href="#">Paul Rudd,</a> <a href="#"> Michael Douglas</a></p>
+											</div>
+										</div>
+										<div class="movie-item-style-2">
+											<img src="images/uploads/mv4.jpg" alt="">
+											<div class="mv-item-infor">
+												<h6><a href="#">Mulholland pride<span> (2013)  </span></a></h6>
+												<p class="rate"><i class="ion-android-star"></i><span>7.2</span> /10</p>
+												<p class="describe">When Tony Stark's world is torn apart by a formidable terrorist called the Mandarin, he starts an odyssey of rebuilding and retribution.</p>
+												<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+												<p>Director: <a href="#">Shane Black</a></p>
+												<p>Stars: <a href="#">Robert Downey Jr., </a> <a href="#">  Guy Pearce,</a><a href="#">Don Cheadle</a></p>
+											</div>
+										</div>
+										<div class="movie-item-style-2">
+											<img src="images/uploads/mv5.jpg" alt="">
+											<div class="mv-item-infor">
+												<h6><a href="#">skyfall: evil of boss<span> (2013)  </span></a></h6>
+												<p class="rate"><i class="ion-android-star"></i><span>7.0</span> /10</p>
+												<p class="describe">When Tony Stark's world is torn apart by a formidable terrorist called the Mandarin, he starts an odyssey of rebuilding and retribution.</p>
+												<p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+												<p>Director: <a href="#">Alan Taylor</a></p>
+												<p>Stars: <a href="#">Chris Hemsworth,  </a> <a href="#">  Natalie Portman,</a><a href="#">Tom Hiddleston</a></p>
+											</div>
+										</div>
+										<div class="topbar-filter">
+											<label>Movies per page:</label>
+											<select>
+												<option value="range">5 Movies</option>
+												<option value="saab">10 Movies</option>
+											</select>
+											<div class="pagination2">
+												<span>Page 1 of 2:</span>
+												<a class="active" href="#">1</a>
+												<a href="#">2</a>
+												<a href="#"><i class="ion-arrow-right-b"></i></a>
+											</div>
+										</div>
+					       	 		</div>
+					       	 	</div>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+    {% endfor %}
+
+
+    <!-- Modal Section -->
+    <div class="bg-modal">
+    <form method="POST" id = "review_form">
+        {% csrf_token %}
+        <div class="modal-contents">
+            <div class="close">+</div>
+            <input type="text" placeholder="Review" name="review">
+                <button  class="btn" type="submit" name = "review_btn" id = "review_btn" value = "clicked">Post</button>
+        </div>
+    </form>
+    </div>
+<style>
+.gap{
+    padding-top: 200px;
+}
+
+.checked {
+    color: goldenrod;
+}
+
+.rating-btn {
+    background-color: inherit !important;
+    border: 0 !important;
+}
+
+
+
+
+.bg-modal {
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-contents {
+	height: 300px;
+	width: 500px;
+	background-color: white;
+	text-align: center;
+	padding: 20px;
+	position: relative;
+	border-radius: 4px;
+}
+
+input {
+	margin: 15px auto;
+	display: block;
+	width: 50%;
+	padding: 8px;
+	border: 1px solid gray;
+}
+
+.close {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-size: 42px;
+	color: #333;
+	transform: rotate(45deg);
+}
+
+
+.btn {
+    margin: 15px auto;
+	display: block;
+	width: 25%;
+    height: 20%;
+	padding: 8px;
+	border: 1px solid gray;
+    transition-duration: 0.4s;
+    background-color: hotpink;
+    font-family: Consolas;
+    font-size: 20px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+    </style>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="../../static/home/home_page/js/production.min.js"></script>
+
+    <script>
+
+
+    $(document).ready(function() {
+
+        var form = document.getElementById("review_form");
+
+    $('#first, #second, #third, #fourth, #fifth').on("click", function(evt) {
+
+          document.querySelector('.bg-modal').style.display = "flex";
+    });
+
+
+
+    $('#review_btn').on("click", function(evt) {
+          document.querySelector('.bg-modal').style.display = "none";
+          form.submit();
+
+
+    });
+
+    $('.reviewer').on("click", function(evt) {
+         var id = $(this).attr('id');
+        window.location = "/profile/"+id;
+    });
+});
+
+
+
+document.querySelector('.close').addEventListener("click", function() {
+    document.querySelector('.bg-modal').style.display = "none";
+});
+    </script>
+
+
+{% endblock %}

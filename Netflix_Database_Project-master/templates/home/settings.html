@@ -1,0 +1,90 @@
+﻿{% extends 'home/base.html' %}
+
+{% block tags %}
+
+<meta charset="utf-8">
+<title>Update account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+     <!-- Bootstrap Core CSS -->
+        <link href="../../static/home/home_page/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CCS for the effects-->
+    <link href="../../static/home/home_page/css/effects.min.css" rel="stylesheet">
+
+<!-- LINEARICONS -->
+<link rel="stylesheet" href="../../static/home/settings/fonts/linearicons/style.css">
+
+<!-- STYLE CSS -->
+<link rel="stylesheet" href="../../static/home/settings/css/style.css">
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="wrapper">
+	<div class="inner">
+		<img src="../../static/home/settings/images/image-1.png" alt="" class="image-1">
+		<form action=""  method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<h3>Update account?</h3>
+			<div class="form-holder">
+				<span class="lnr lnr-user"></span>
+				<input type="text" name="fname" class="form-control" placeholder="Update Your First Name">
+			</div>
+			<div class="form-holder">
+				<span class="lnr lnr-user"></span>
+				<input type="text" name="lname" class="form-control" placeholder="Update your Last Name">
+			</div>
+			<div class="form-holder">
+				<span class="lnr lnr-phone-handset"></span>
+				<input type="text" name="phone" class="form-control" placeholder="Update your Phone Number">
+			</div>
+			<div class="form-holder">
+				<span class="lnr lnr-lock"></span>
+				<input type="password" name="password" class="form-control" placeholder="Update your Password">
+			</div>
+			<div class="form-holder">
+				<span class="lnr lnr-lock"></span>
+
+				<input type="password" name="confpass" class="form-control" placeholder="Confirm Password">
+			</div>
+            <div class="form-holder">
+                <label>Update your profile picture (.jpg , .png):</label>
+				<input  type="file" name="profile_pic">
+			</div>
+			<button name="update" type="submit" value="Update">
+				<span>Update</span>
+			</button>
+			<div class="p-t-15">
+				<label class="error">
+					{% block warning %}
+					{{ error_msg }}
+					{% endblock %}
+				</label>
+			</div>
+		</form>
+		<img src="../../static/home/settings/images/image-2.png" alt="" class="image-2">
+	</div>
+	<style>
+		.p-t-15 {
+			padding-top: 15px;
+		}
+
+		.error {
+			font-size: 16px;
+			color: #868;
+			text-transform: capitalize;
+			display: block;
+			margin-bottom: 5px;
+		}
+	</style>
+
+</div>
+
+<script src="../../static/home/settings/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/home/settings/js/main.js"></script>
+<script src="../../static/home/home_page/js/production.min.js"></script>
+{% endblock %}
